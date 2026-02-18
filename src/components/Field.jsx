@@ -6,6 +6,7 @@ const Field = (props) => {
     type = "text",
     value,
     onInput,
+    ref,
   } = props
 
 	return (
@@ -26,6 +27,7 @@ const Field = (props) => {
               onInput(event.target.value)
             }}
             value={value}
+            ref={ref}
           />
         </div>
 	)
