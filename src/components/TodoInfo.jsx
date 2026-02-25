@@ -1,3 +1,4 @@
+import { memo } from "react"
 const TodoInfo = (props) => {
 	const {
 		total,
@@ -5,7 +6,7 @@ const TodoInfo = (props) => {
 		onDeleteAllBtnClick,
 	} = props
 	const hasTasks = total > 0
-
+console.log('as12')
 	return (
 		<div className="todo__info">
 			<div className="todo__total-tasks">
@@ -24,4 +25,4 @@ const TodoInfo = (props) => {
 	)
 }
 
-export default TodoInfo
+export default memo(TodoInfo)

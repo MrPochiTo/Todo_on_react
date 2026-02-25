@@ -1,3 +1,4 @@
+import { memo } from "react"
 const TodoItem = (props) => {
   const {
     className,
@@ -9,8 +10,9 @@ const TodoItem = (props) => {
     ref,
   } = props
 
-
+console.log('as1')
 	return (
+    
 		<li className={`todo-item ${className}`}
     ref={ref}>
           <input
@@ -52,4 +54,4 @@ const TodoItem = (props) => {
         </li>
 	)
 }
-export default TodoItem
+export default memo(TodoItem)
