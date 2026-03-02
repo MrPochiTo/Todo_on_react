@@ -1,9 +1,8 @@
+import { useState, useRef, useEffect,useCallback,useMemo } from "react"
 const useTask = () => {
 const [tasks, setTask] = useState(JSON.parse(localStorage.getItem('tasks')))
 	const [newTaskTitle, setNewTaskTitle] = useState('')
 	const newTaskInputRef = useRef(null)
-	const firstTaskNotComplete = useRef(null)
-	const firstTaskNotCompleteId = tasks.find(({isDone})=> !isDone)?.id
 	const [searchQuery, setSearchQuery] = useState('')
 	useEffect(( ) => {
 	localStorage.setItem('tasks', JSON.stringify(tasks))
@@ -70,8 +69,6 @@ const [tasks, setTask] = useState(JSON.parse(localStorage.getItem('tasks')))
 	return {
 	  tasks,
       filteredTasks,
-      firstTaskNotComplete,
-      firstTaskNotCompleteId,
       deleteTask,
       deleteAllTask,
       toggleTaskComplete,
