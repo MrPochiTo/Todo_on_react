@@ -3,6 +3,7 @@ const Button = (props) => {
 		className = " ",
 		type = "button",
 		children,
+		isDisable,
 		onSumbit,
 		onClick,
 	} = props
@@ -11,6 +12,7 @@ const Button = (props) => {
 				className={`button ${className}`}
 				type={type}
 				onClick={onClick}
+				disabled={isDisable}
 			>
 				{children}
 			</button>
