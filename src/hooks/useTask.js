@@ -1,17 +1,15 @@
 import { useState, useRef, useEffect,useCallback,useMemo } from "react"
 const useTask = () => {
-const [tasks, setTask] = useState([])
+const [tasks, setTask] = useState(JSON.parse(localStorage.getItem('tasks')))
 	const [newTaskTitle, setNewTaskTitle] = useState('')
 	const newTaskInputRef = useRef(null)
 	const [searchQuery, setSearchQuery] = useState('')
-
+	useEffect(( ) => {
+	localStorage.setItem('tasks', JSON.stringify(tasks))
+	}, [tasks])
 
 	useEffect(() => {
 		newTaskInputRef.current.focus()
-
-		fetch('http://localhost:3001/tasks')
-		.then((response) => response.json())
-		.then(setTask)
 	}, [])
 
 
@@ -21,7 +19,6 @@ const [tasks, setTask] = useState([])
 		setTask([])
 	}
 	},[])
-
 	const deleteTask = useCallback((taskId) => {
 	if(tasks.forEach((task) => { if(task.id === taskId) {
 		return task.isDone
@@ -44,31 +41,23 @@ const [tasks, setTask] = useState([])
 	},[tasks])
 
 
-	const addTask = useCallback((title) => {
+	const addTask = useCallback(() => {
 	// const newTaskTitle = newTaskInputRef.current.value
+	if(newTaskTitle.trim().length > 0) {
 		const newTask = {
-			title,
+			id: crypto?.randomUUID() ?? Date.now().toString(),
+			title: newTaskTitle,
 			isDone: false
 		}
 
-		fetch('http://localhost:3001/tasks', {
-			method: 'POST',
-			headers: {
-				"Content-Type": 'application/json',
-			},
-			body: JSON.stringify(newTask),
-		})
-		.then((response) => response.json())
-		.then((addedTask) => {
-			setTask( (prevTasks) => {
-		return [...prevTasks, addedTask]
+		setTask( (prevTasks) => {
+		return [...prevTasks, newTask]
 		})
 		setNewTaskTitle('')
-		})
 		// newTaskInputRef.current.focus()
 		// newTaskInputRef.current.value = ''
-	
-	}, [])
+	}
+	}, [newTaskTitle])
 
 
 

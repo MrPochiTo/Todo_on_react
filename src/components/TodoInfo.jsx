@@ -3,13 +3,14 @@ import { TasksContext } from "../context/TasksContext"
 const TodoInfo = () => {
 	const {
 		tasks,
-		deleteAllTasks,
+		deleteAllTasks
 	} = useContext(TasksContext)
 	const total = tasks.length
 	const hasTasks = total > 0
-	const done = useMemo(() => tasks.filter(({isDone}) => isDone).length, [tasks])
-	
-console.log(`${done}`)
+	const done = useMemo(() => {
+    tasks.filter(({isDone}) => isDone).length
+  }, [tasks])
+console.log('as12')
 	return (
 		<div className="todo__info">
 			<div className="todo__total-tasks">

@@ -1,7 +1,7 @@
 .todo {
   display: flex;
   flex-direction: column;
-  row-gap: 35px;
+  row-gap: 24px;
   width: 100%;
   max-width: 404px;
   min-height: 429px;
@@ -21,7 +21,7 @@
 
 .todo__form {
   display: flex;
-  column-gap: 20px;
+  column-gap: 16px;
 }
 
 .todo__field {

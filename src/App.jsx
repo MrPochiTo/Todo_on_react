@@ -5,7 +5,6 @@ import {TasksProvider} from "./context/TasksContext"
 
 
 const App = () => {
-   console.log('as')
   return (
     <TasksProvider>
           <Todo />

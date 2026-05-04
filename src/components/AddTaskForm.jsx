@@ -1,8 +1,7 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import Button from "./Button"
 import Field from "./field"
 import { TasksContext } from "../context/TasksContext"
-import useError from "../hooks/useError"
 
 
 const AddTaskForm = () => {
@@ -12,18 +11,12 @@ const AddTaskForm = () => {
         setNewTaskTitle,
 		newTaskInputRef,
 	} = useContext(TasksContext)
-	
-	const clearNewTaskTitle = newTaskTitle.trim()
-	const {error, setError} = useError()
-	const isDisable = clearNewTaskTitle.length === 0
-	console.log(isDisable)
+
 	const onSubmit = (event) => {
 		event.preventDefault()
-
-		if(!isDisable) {
-			addTask(clearNewTaskTitle)
-		}
+		addTask()
 	}
+
 	return (
 	<form className="todo__form" onSubmit = {onSubmit} >
         <Field 
@@ -33,16 +26,9 @@ const AddTaskForm = () => {
 		value={newTaskTitle}
 		onInput={setNewTaskTitle}
 		ref={newTaskInputRef}
-		error={error}
-		setError={setError}
 		/>
 
-		<Button
-		type="sumbit"
-		isDisable={isDisable}
-		>
-		Add
-		</Button >
+		<Button type="sumbit">Add</Button >
     </form>
 	)
 }
