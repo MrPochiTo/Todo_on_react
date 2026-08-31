@@ -1,10 +1,16 @@
 import { useCallback, useEffect, useMemo, useState, useRef, useContext } from "react";
+import useTaskLocalStorage from "./useTasksLocalStorage";
 
 const useTasks = () => {
-        const [tasks, setTask] = useState(() => SavedTasks ?? [])
+    const {
+       savedTasks,
+       saveTask,
+   } = useTaskLocalStorage()
+        const [tasks, setTask] = useState(() => savedTasks ?? [])
         const [newTaskTitle, setNewTaskTitle] = useState('')
         const newTaskInputRef = useRef(null)
-    
+        
+        useEffect(() => saveTask(tasks))
         const [searchQuery, setSearchQuery] = useState('')
         useEffect(() => {
             newTaskInputRef.current.focus()

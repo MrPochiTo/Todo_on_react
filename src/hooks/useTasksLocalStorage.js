@@ -1,6 +1,12 @@
- useEffect(( ) => {
-        localStorage.setItem('tasks', JSON.stringify(tasks))
-        }, [tasks])
-const SavedTasks = JSON.parse(localStorage.getItem('tasks'))
 
-usetas
+const useTaskLocalStorage = () => {
+        const savedTasks = localStorage.getItem('tasks')
+        const saveTask = (tasks) => localStorage.setItem('tasks', JSON.stringify(tasks))
+
+        return {
+                savedTasks: savedTasks ? JSON.parse(savedTasks) : null,
+                saveTask,
+        }
+}
+
+export default useTaskLocalStorage

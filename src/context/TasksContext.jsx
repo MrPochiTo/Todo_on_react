@@ -6,17 +6,17 @@ export const TasksContext = createContext({})
 export const TasksProvider = (props) => {
 	const {children} = props
     const {tasks,
-      filteredTasks,
-      deleteTask,
-      deleteAllTask,
-      toggleTaskComplete,
+    filteredTasks,
+    deleteTask,
+    deleteAllTask,
+    toggleTaskComplete,
 	  newTaskTitle,
 	  setNewTaskTitle,
 	  setSearchQuery,
 	  newTaskInputRef,
 	  addTask} = useTasks()
 	const {firstTaskNotComplete,
-      firstTaskNotCompleteId} = useTaskScroll()
+      firstTaskNotCompleteId } = useTaskScroll(tasks)
 	return (
 	  <TasksContext.Provider
     value={{tasks,
