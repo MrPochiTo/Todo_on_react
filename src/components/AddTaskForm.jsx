@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import Button from "./Button"
 import Field from "./field"
 import { TasksContext } from "../context/TasksContext"
@@ -17,6 +17,7 @@ const AddTaskForm = () => {
 		addTask()
 	}
 
+const [error, setError] = useState('')
 	return (
 	<form className="todo__form" onSubmit = {onSubmit} >
         <Field 
@@ -26,9 +27,12 @@ const AddTaskForm = () => {
 		value={newTaskTitle}
 		onInput={setNewTaskTitle}
 		ref={newTaskInputRef}
+		error={error}
+		setError = {setError}
 		/>
 
-		<Button type="sumbit">Add</Button >
+		<Button type="sumbit"
+		isDisable={newTaskTitle.trim().length === 0}>Add</Button >
     </form>
 	)
 }
