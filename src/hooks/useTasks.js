@@ -1,45 +1,54 @@
 import { useCallback, useEffect, useMemo, useState, useRef, useContext } from "react";
-import useTaskLocalStorage from "./useTasksLocalStorage";
+
 
 const useTasks = () => {
-    const {
-       savedTasks,
-       saveTask,
-   } = useTaskLocalStorage()
-        const [tasks, setTask] = useState(() => savedTasks ?? [])
+
+        const [tasks, setTask] = useState([])
         const [newTaskTitle, setNewTaskTitle] = useState('')
         const newTaskInputRef = useRef(null)
-        
-        useEffect(() => saveTask(tasks))
         const [searchQuery, setSearchQuery] = useState('')
         useEffect(() => {
             newTaskInputRef.current.focus()
+            fetch('http://localhost:3001/task').then((res) => res.json()).then(setTask)
         }, [])
             const deleteAllTask = useCallback(() => {
         const isConfirm = confirm("Вы точно хотите удалить все задачи?")
-        if(isConfirm) {
-            setTask([])
-        }
-        },[])
+            Promise.all(
+                tasks.map(({id}) => { fetch(`http://localhost:3001/task/${id}`, {
+                method: 'DELETE',
+            }).then(() => setTask([]))})
+            )
+        },[tasks])
         const deleteTask = useCallback((taskId) => {
         if(tasks.forEach((task) => { if(task.id === taskId) {
             return task.isDone
         }})) {
             setTask(tasks.filter(({id}) => id !== taskId ))
+            fetch(`http://localhost:3001/task/${taskId}`, {
+                method: 'DELETE',
+            }).then((setTask(tasks.filter(({id}) => id !== taskId ))))
         } else {
             const isConfirm = confirm("Вы хотите отменить задачу")
             if(isConfirm) {
-                setTask(tasks.filter(({id}) => id !== taskId ))
+              fetch(`http://localhost:3001/task/${taskId}`, {
+                method: 'DELETE',
+            }).then((setTask(tasks.filter(({id}) => id !== taskId ))))
             }
         }
         } , [tasks])
         const toggleTaskComplete = useCallback((taskId, isDone) => {
-        setTask(tasks.map((task) => {
+        fetch(`http://localhost:3001/task/${taskId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({isDone})
+            }).then((isDone) => setTask(tasks.map((task) => {
             if(taskId === task.id) {
                 return {...task, isDone}
             }
             return task
-        }))
+        })))
         },[tasks])
     
     
@@ -47,15 +56,22 @@ const useTasks = () => {
         // const newTaskTitle = newTaskInputRef.current.value
         if(newTaskTitle.trim().length > 0) {
             const newTask = {
-                id: crypto?.randomUUID() ?? Date.now().toString(),
                 title: newTaskTitle,
                 isDone: false
             }
-    
+            fetch('http://localhost:3001/task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newTask)
+            }).then((res)=> res.json()).then((addedTask) => {
             setTask( (prevTasks) => {
-            return [...prevTasks, newTask]
+            return [...prevTasks, addedTask]
             })
             setNewTaskTitle('')
+            })
+            
             // newTaskInputRef.current.focus()
             // newTaskInputRef.current.value = ''
         }

@@ -46,4 +46,18 @@
       background-repeat: no-repeat;
     }
   }
+  &.is-invalid{
+    border-color: red;
+  }
 }
+
+.field__Error {
+    position: absolute;
+    color: red;
+    top: 100%;
+    left: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+  }
