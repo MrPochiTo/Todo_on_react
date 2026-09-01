@@ -3,16 +3,26 @@ const headers = {
                     'Content-Type': 'application/json',
                 }
 const taskApi = {
-    getAll: ()=> {fetch(URL).then((res) => res.json())},
-     add: (task)=> {fetch('http://localhost:3001/task', {
+    getAll: ()=> fetch(URL).then((res) => res.json()),
+     add: (task)=> fetch(URL, {
                 method: 'POST',
                 headers,
-                body: JSON.stringify(newTask)
-            }).then((res)=> res.json())},
-      delete: ()=> { fetch(`${URL}${taskId}`, {
+                body: JSON.stringify(task)
+            }).then((res)=> res.json()),
+      delete: (id)=>  fetch(`${URL}/${id}`, {
                 method: 'DELETE',
-            })},
-       deleteAll: ()=> {},
-        toggleComplete: ()=> {},
+            }),
+       deleteAll: (tasks)=>   Promise.all(
+                tasks.map(({id}) => {taskApi.delete(id)})
+            ),
+        toggleComplete: (Id, isDone)=> 
+        fetch(`${URL}/${Id}`, {
+                method: 'PATCH',
+                headers,
+                body: JSON.stringify({isDone})
+            })
+        
         
 }
+
+export default taskApi

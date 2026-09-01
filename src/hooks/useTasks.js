@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, useRef, useContext } from "react";
+import taskApi from "../api/taskApi";
 
 
 const useTasks = () => {
@@ -9,41 +10,27 @@ const useTasks = () => {
         const [searchQuery, setSearchQuery] = useState('')
         useEffect(() => {
             newTaskInputRef.current.focus()
-            fetch('http://localhost:3001/task').then((res) => res.json()).then(setTask)
+            taskApi.getAll().then(setTask)
         }, [])
             const deleteAllTask = useCallback(() => {
         const isConfirm = confirm("Вы точно хотите удалить все задачи?")
-            Promise.all(
-                tasks.map(({id}) => { fetch(`http://localhost:3001/task/${id}`, {
-                method: 'DELETE',
-            }).then(() => setTask([]))})
-            )
+            taskApi.deleteAll(tasks).then(() => setTask([]))
         },[tasks])
         const deleteTask = useCallback((taskId) => {
         if(tasks.forEach((task) => { if(task.id === taskId) {
             return task.isDone
         }})) {
             setTask(tasks.filter(({id}) => id !== taskId ))
-            fetch(`http://localhost:3001/task/${taskId}`, {
-                method: 'DELETE',
-            }).then((setTask(tasks.filter(({id}) => id !== taskId ))))
+            taskApi.delete(taskId).then((setTask(tasks.filter(({id}) => id !== taskId ))))
         } else {
             const isConfirm = confirm("Вы хотите отменить задачу")
             if(isConfirm) {
-              fetch(`http://localhost:3001/task/${taskId}`, {
-                method: 'DELETE',
-            }).then((setTask(tasks.filter(({id}) => id !== taskId ))))
+              taskApi.delete(taskId).then((setTask(tasks.filter(({id}) => id !== taskId ))))
             }
         }
         } , [tasks])
         const toggleTaskComplete = useCallback((taskId, isDone) => {
-        fetch(`http://localhost:3001/task/${taskId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({isDone})
-            }).then((isDone) => setTask(tasks.map((task) => {
+        taskApi.toggleComplete(taskId,isDone).then(() => setTask(tasks.map((task) => {
             if(taskId === task.id) {
                 return {...task, isDone}
             }
@@ -59,13 +46,7 @@ const useTasks = () => {
                 title: newTaskTitle,
                 isDone: false
             }
-            fetch('http://localhost:3001/task', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newTask)
-            }).then((res)=> res.json()).then((addedTask) => {
+            taskApi.add(newTask).then((addedTask) => {
             setTask( (prevTasks) => {
             return [...prevTasks, addedTask]
             })
