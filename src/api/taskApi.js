@@ -4,6 +4,12 @@ const headers = {
                 }
 const taskApi = {
     getAll: ()=> fetch(URL).then((res) => res.json()),
+
+    getById: (id) => fetch(`${URL}/${id}`).then((res)=>{
+        if(!res.ok) throw new Error(`HTTP ошибка! Статус: ${response.status}`);
+        res.json()
+        
+    }),
      add: (task)=> fetch(URL, {
                 method: 'POST',
                 headers,

@@ -4,13 +4,19 @@ const Field = (props) => {
     id,
     label,
     type = "text",
+    error,
     value,
     onInput,
     ref,
-    error,
-    setError
   } = props
-
+const chekInput = (event) => {
+  const {value} = event.target
+  const clearValue = value.trim()
+  const hasOnlyspaces = value.length > 0 && clearValue.length === 0
+  
+  onInput(value)
+  setError(hasOnlyspaces ? 'The input cannot be empty' : '')
+}
 	return (
 		 <div className={`${className} field `}>
           <label
@@ -20,22 +26,17 @@ const Field = (props) => {
             {label}
           </label>
           <input
-            className={`field__input ${error ? 'is-invalid' : ''}`}
+            className="field__input"
             id={id}
             placeholder=""
             autoComplete="off"
             type={type}
             onInput={(event) => {
-              const {value} = event.target
-              const clearValue = value.trim()
-		          const hasSpaceOnInput = value.length > 0 && clearValue.length === 0
-              onInput(value)
-              setError(hasSpaceOnInput ? "Задача из пробелов серьёзно)" : '')
+              onInput(event.target.value)
             }}
             value={value}
             ref={ref}
           />
-          {error && (<span className="field__Error">{error}</span>)}
         </div>
 	)
 }
