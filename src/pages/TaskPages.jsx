@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import taskApi from "../api/taskApi"
 
 const TaskPage = (props) => {
-    const {params} = pros
+    const {params} = props
     const taskId = params.id
     const [task, setTask] = useState(null)
     const [isLoading, setLoading] = useState(true)

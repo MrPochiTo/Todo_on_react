@@ -7,8 +7,7 @@ const taskApi = {
 
     getById: (id) => fetch(`${URL}/${id}`).then((res)=>{
         if(!res.ok) throw new Error(`HTTP ошибка! Статус: ${response.status}`);
-        res.json()
-        
+        return res.json()
     }),
      add: (task)=> fetch(URL, {
                 method: 'POST',
