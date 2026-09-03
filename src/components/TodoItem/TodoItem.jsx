@@ -1,7 +1,8 @@
 import { memo } from "react"
-import { TasksContext } from "../context/TasksContext"
+import { TasksContext } from "../../context/TasksContext"
 import { useContext } from "react"
-import RouterLink from "./RouterLink"
+import RouterLink from "../RouterLink/RouterLink"
+import styles from "./TodoItem.module.css"
 const TodoItem = (props) => {
   const {
     className,
@@ -17,11 +18,11 @@ const {
   } = useContext(TasksContext)
 	return (
     
-		<li className={`todo-item ${className}`}
+		<li className={`${styles.item} ${className}`}
     ref={id === firstTaskNotCompleteId ? firstTaskNotComplete : null}
     >
           <input
-            className="todo-item__checkbox"
+            className={styles.checkbox}
             id={id}
             type="checkbox"
             checked={isDone}
@@ -29,7 +30,7 @@ const {
 
           />
           <label
-            className="todo-item__label visually-hidden"
+            className={`${styles.label} visually-hidden`}
             htmlFor={id}
           >
             {title}
@@ -38,7 +39,7 @@ const {
               {title}
           </RouterLink>
           <button
-            className="todo-item__delete-button"
+            className={styles.deleteButton}
             aria-label="Delete"
             title="Delete"
             onClick={() => deleteTask(id)}

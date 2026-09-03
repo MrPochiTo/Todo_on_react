@@ -1,3 +1,5 @@
+import styles from './Field.module.css'
+
 const Field = (props) => {
   const {
     className,
@@ -8,6 +10,7 @@ const Field = (props) => {
     value,
     onInput,
     ref,
+    setError
   } = props
 const chekInput = (event) => {
   const {value} = event.target
@@ -18,25 +21,26 @@ const chekInput = (event) => {
   setError(hasOnlyspaces ? 'The input cannot be empty' : '')
 }
 	return (
-		 <div className={`${className} field `}>
+		 <div className={`${styles.field} ${className}  `}>
           <label
-            className="field__label"
+            className={styles.label}
             htmlFor={id}
           >
             {label}
           </label>
           <input
-            className="field__input"
+            className={`${styles.input} ${error ? styles.isInvalid : ''}`}
             id={id}
             placeholder=""
             autoComplete="off"
             type={type}
             onInput={(event) => {
-              onInput(event.target.value)
+              chekInput(event)
             }}
             value={value}
             ref={ref}
           />
+          {error && (<span className={styles.error} title={error}>{error}</span>)}
         </div>
 	)
 }

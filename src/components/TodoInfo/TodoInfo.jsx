@@ -1,6 +1,7 @@
 import { memo,useContext,useMemo } from "react"
-import { TasksContext } from "../context/TasksContext"
-const TodoInfo = () => {
+import { TasksContext } from "../../context/TasksContext"
+const TodoInfo = (props) => {
+	const {styles} = props
 	const {
 		tasks = [],
 		deleteAllTask
@@ -12,13 +13,13 @@ const TodoInfo = () => {
   }, [tasks])
 console.log('as12')
 	return (
-		<div className="todo__info">
-			<div className="todo__total-tasks">
+		<div className={styles.info}>
+			<div className={styles.title}>
 				Done {done}, from {total}
 			</div>
 			{hasTasks && (
 				<button 
-					className="todo__delete-all-button"
+					className={styles.deleteAll}
 					type="button"
 					onClick={deleteAllTask}
 				>
