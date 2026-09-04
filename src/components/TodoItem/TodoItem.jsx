@@ -1,8 +1,9 @@
-import { memo } from "react"
+import { memo, useRef } from "react"
 import { TasksContext } from "../../context/TasksContext"
 import { useContext } from "react"
 import RouterLink from "../RouterLink/RouterLink"
 import styles from "./TodoItem.module.css"
+import useAnimation from "../../hooks/useAnimation"
 const TodoItem = (props) => {
   const {
     className,
@@ -16,6 +17,15 @@ const {
       deleteTask,
       toggleTaskComplete
   } = useContext(TasksContext)
+
+  const animationRef = useRef(null)
+  const allRef = useAnimation(
+    id === firstTaskNotCompleteId ? firstTaskNotComplete : null,
+    animationRef
+  )
+  const deleteTaskClick = () => {
+    deleteTask(id)
+  }
 	return (
     
 		<li className={`${styles.item} ${className}`}
