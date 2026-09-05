@@ -8,6 +8,7 @@ const useTasks = () => {
         const [newTaskTitle, setNewTaskTitle] = useState('')
         const newTaskInputRef = useRef(null)
         const [searchQuery, setSearchQuery] = useState('')
+        const [deleteTaskId, setdeleteTaskId] = useState('')
         useEffect(() => {
             newTaskInputRef.current.focus()
             taskApi.getAll().then(setTask)
@@ -21,11 +22,27 @@ const useTasks = () => {
             return task.isDone
         }})) {
             setTask(tasks.filter(({id}) => id !== taskId ))
-            taskApi.delete(taskId).then((setTask(tasks.filter(({id}) => id !== taskId ))))
+            taskApi.delete(taskId).then(() => {
+                setdeleteTaskId(taskId)
+                setTimeout(() => {
+                    setTask(
+                    tasks.filter(({id}) => id !== taskId )
+                )
+                setdeleteTaskId(null)
+                }, 400)
+            })
         } else {
             const isConfirm = confirm("Вы хотите отменить задачу")
             if(isConfirm) {
-              taskApi.delete(taskId).then((setTask(tasks.filter(({id}) => id !== taskId ))))
+              taskApi.delete(taskId).then(() => {
+                setdeleteTaskId(taskId)
+                setTimeout(() => {
+                    setTask(
+                    tasks.filter(({id}) => id !== taskId )
+                )
+                setdeleteTaskId(null)
+                }, 400)
+            })
             }
         }
         } , [tasks])
@@ -75,6 +92,7 @@ const useTasks = () => {
 	  setSearchQuery,
 	  newTaskInputRef,
 	  addTask,
+      deleteTaskId,
     })
 }
 

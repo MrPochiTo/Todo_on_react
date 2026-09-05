@@ -15,20 +15,14 @@ const {
       firstTaskNotComplete,
       firstTaskNotCompleteId,
       deleteTask,
-      toggleTaskComplete
+      toggleTaskComplete, 
+      deleteTaskId,
   } = useContext(TasksContext)
 
-  const animationRef = useRef(null)
-  const allRef = useAnimation(
-    id === firstTaskNotCompleteId ? firstTaskNotComplete : null,
-    animationRef
-  )
-  const deleteTaskClick = () => {
-    deleteTask(id)
-  }
+
 	return (
     
-		<li className={`${styles.item} ${className}`}
+		<li className={`${styles.item} ${className} ${deleteTaskId === id ? styles.isDisappearing : ''}` }
     ref={id === firstTaskNotCompleteId ? firstTaskNotComplete : null}
     >
           <input
