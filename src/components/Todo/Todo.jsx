@@ -5,7 +5,7 @@ import TodoInfo from "../TodoInfo/TodoInfo"
 import TodoList from "../TodoList/TodoList"
 import Button from "../Button/Button"
 import { TasksContext } from "../../context/TasksContext"
-import styles from "./Todo.module.css"
+import styles from "./Todo.module.scss"
 const Todo = () => {
 const {firstTaskNotComplete} = useContext(TasksContext)
 

@@ -14,7 +14,7 @@ export const TasksProvider = (props) => {
 	  setNewTaskTitle,
 	  setSearchQuery,
 	  newTaskInputRef,
-	  addTask, deleteTaskId} = useTasks()
+	  addTask, deleteTaskId, addTaskId} = useTasks()
 	const {firstTaskNotComplete,
       firstTaskNotCompleteId } = useTaskScroll(tasks)
 	return (
@@ -32,6 +32,7 @@ export const TasksProvider = (props) => {
 	  newTaskInputRef,
 	  addTask,
     deleteTaskId,
+    addTaskId,
     }}>
       {children}
     </TasksContext.Provider>

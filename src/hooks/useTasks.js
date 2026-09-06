@@ -8,14 +8,21 @@ const useTasks = () => {
         const [newTaskTitle, setNewTaskTitle] = useState('')
         const newTaskInputRef = useRef(null)
         const [searchQuery, setSearchQuery] = useState('')
-        const [deleteTaskId, setdeleteTaskId] = useState('')
+        const [deleteTaskId, setdeleteTaskId] = useState(null)
+        const [addTaskId, setaddTaskId] = useState(null)
         useEffect(() => {
             newTaskInputRef.current.focus()
             taskApi.getAll().then(setTask)
         }, [])
             const deleteAllTask = useCallback(() => {
         const isConfirm = confirm("Вы точно хотите удалить все задачи?")
-            taskApi.deleteAll(tasks).then(() => setTask([]))
+            taskApi.deleteAll(tasks).then(() => {
+                setdeleteTaskId('AllTaskDelete')
+                setTimeout(() => {
+                    setTask([])
+                    setdeleteTaskId(null)
+                }, 400)
+            })
         },[tasks])
         const deleteTask = useCallback((taskId) => {
         if(tasks.forEach((task) => { if(task.id === taskId) {
@@ -68,6 +75,10 @@ const useTasks = () => {
             return [...prevTasks, addedTask]
             })
             setNewTaskTitle('')
+            setaddTaskId(addedTask.id)
+            setTimeout(()=> {
+                setaddTaskId(null)
+            }, 20000)
             })
             
             // newTaskInputRef.current.focus()
@@ -93,6 +104,7 @@ const useTasks = () => {
 	  newTaskInputRef,
 	  addTask,
       deleteTaskId,
+      addTaskId
     })
 }
 

@@ -1,4 +1,4 @@
-import styles from './Field.module.css'
+import styles from './Field.module.scss'
 
 const Field = (props) => {
   const {

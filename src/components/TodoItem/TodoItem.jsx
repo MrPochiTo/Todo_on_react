@@ -2,8 +2,8 @@ import { memo, useRef } from "react"
 import { TasksContext } from "../../context/TasksContext"
 import { useContext } from "react"
 import RouterLink from "../RouterLink/RouterLink"
-import styles from "./TodoItem.module.css"
-import useAnimation from "../../hooks/useAnimation"
+import styles from "./TodoItem.module.scss"
+
 const TodoItem = (props) => {
   const {
     className,
@@ -17,12 +17,17 @@ const {
       deleteTask,
       toggleTaskComplete, 
       deleteTaskId,
+      addTaskId,
   } = useContext(TasksContext)
 
-
+console.log(addTaskId)
 	return (
     
-		<li className={`${styles.item} ${className} ${deleteTaskId === id ? styles.isDisappearing : ''}` }
+		<li className={`${styles.item} 
+    ${deleteTaskId === id ? styles.isDisappearing : ''} 
+    ${addTaskId === id ? styles.isAppearing : ''} 
+     ${deleteTaskId === 'AllTaskDelete' ? styles.isDisappearing : ''}
+    `}
     ref={id === firstTaskNotCompleteId ? firstTaskNotComplete : null}
     >
           <input
