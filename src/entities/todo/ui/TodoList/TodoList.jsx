@@ -1,7 +1,6 @@
-import TodoItem from "../../../entities/todo/ui/TodoItem/TodoItem"
+import {TodoItem, TasksContext} from "@/entities/todo"
 import { memo } from "react"
 import { useContext } from "react"
-import { TasksContext } from "../../context/TasksContext"
 
 const TodoList = (props) => {
   const {styles} = props
