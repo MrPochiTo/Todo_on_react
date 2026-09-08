@@ -1,6 +1,6 @@
 import { createContext } from "react";
-import useTasks from "./hooks/useTasks";
-import useTaskScroll from "./hooks/useTaskScroll";
+import useTasks from "./useTasks";
+import useTaskScroll from "./useTaskScroll";
 export const TasksContext = createContext({})
 
 export const TasksProvider = (props) => {

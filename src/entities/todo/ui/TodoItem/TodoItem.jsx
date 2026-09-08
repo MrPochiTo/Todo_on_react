@@ -1,5 +1,5 @@
 import { memo } from "react"
-import { TasksContext } from "@/entities/TasksContext"
+import { TasksContext } from "@/entities/todo"
 import { useContext } from "react"
 import RouterLink from "@/shared/ui/RouterLink"
 import styles from "./TodoItem.module.scss"
