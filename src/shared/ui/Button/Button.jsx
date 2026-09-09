@@ -5,7 +5,6 @@ const Button = (props) => {
 		className = " ",
 		type = "button",
 		children,
-		onSumbit,
 		onClick,
 		isDisable,
 	} = props

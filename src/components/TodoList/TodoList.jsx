@@ -1,14 +1,14 @@
 import TodoItem from "../../../entities/todo/ui/TodoItem/TodoItem"
 import { memo } from "react"
 import { useContext } from "react"
-import { TasksContext } from "../../context/TasksContext"
+import { TasksDataContext } from "@/entities/todo"
 
 const TodoList = (props) => {
   const {styles} = props
   const {
       tasks,
       filteredTasks,
-    } = useContext(TasksContext)
+    } = useContext(TasksDataContext)
 	const hasTasks = tasks.length > 0
   const isEmptySearchTask = filteredTasks?.length === 0
 	if(!hasTasks) {

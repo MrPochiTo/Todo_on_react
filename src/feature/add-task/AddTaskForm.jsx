@@ -1,24 +1,22 @@
 import { useContext, useState } from "react"
 import Button from "@/shared/ui/Button"
 import Field from "@/shared/ui/Field"
-import { TasksContext } from "@/entities/todo"
+import { ActionTaskContext } from "@/entities/todo"
 
 
 const AddTaskForm = (props) => {
 	const {styles} = props
 	const {
 		addTask,
-		newTaskTitle,
-        setNewTaskTitle,
 		newTaskInputRef,
-	} = useContext(TasksContext)
-
+	} = useContext(ActionTaskContext)
+	
+	const [newTaskTitle, setNewTaskTitle] = useState('')
 	const onSubmit = (event) => {
 		event.preventDefault()
-		addTask()
+		addTask(newTaskTitle, () => setNewTaskTitle('') )
 	}
-
-const [error, setError] = useState('')
+	
 	return (
 	<form className={styles.form} onSubmit = {onSubmit} >
         <Field 
@@ -28,8 +26,6 @@ const [error, setError] = useState('')
 		value={newTaskTitle}
 		onInput={setNewTaskTitle}
 		ref={newTaskInputRef}
-		error={error}
-		setError = {setError}
 		/>
 
 		<Button type="sumbit"

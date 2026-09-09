@@ -1,18 +1,17 @@
 import styles from './Field.module.scss'
-
+import { useState } from 'react'
 const Field = (props) => {
   const {
     className,
     id,
     label,
     type = "text",
-    error,
     value,
     onInput,
     ref,
-    setError
   } = props
-const chekInput = (event) => {
+  const [error, setError] = useState('')
+  const chekInput = (event) => {
   const {value} = event.target
   const clearValue = value.trim()
   const hasOnlyspaces = value.length > 0 && clearValue.length === 0

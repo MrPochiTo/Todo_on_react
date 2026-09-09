@@ -1,26 +1,25 @@
 import { memo } from "react"
-import { TasksContext } from "@/entities/todo"
+import { ActionTaskContext,TasksDataContext } from "@/entities/todo"
 import { useContext } from "react"
 import RouterLink from "@/shared/ui/RouterLink"
 import styles from "./TodoItem.module.scss"
 
 const TodoItem = (props) => {
   const {
-    className,
     id,
     title,
     isDone,
   } = props
 const {
-      firstTaskNotComplete,
-      firstTaskNotCompleteId,
       deleteTask,
       toggleTaskComplete, 
       deleteTaskId,
       addTaskId,
-  } = useContext(TasksContext)
-
-console.log(addTaskId)
+  } = useContext(ActionTaskContext)
+  const {
+      firstTaskNotComplete,
+      firstTaskNotCompleteId,
+  } = useContext(TasksDataContext)
 	return (
     
 		<li className={`${styles.item} 
