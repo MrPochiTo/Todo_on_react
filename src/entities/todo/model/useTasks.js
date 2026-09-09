@@ -3,7 +3,7 @@ import taskApi from "@/shared/api/tasks";
 const tasksReducer = (state, action) => {
     switch(action.type){
         case 'SET_ALL': {
-            return action.isArray(action.tasks) ? action.tasks : state
+            return Array.isArray(action.tasks) ? action.tasks : state
         }
         case 'ADD': {
             return [...state, action.task]
@@ -15,15 +15,18 @@ const tasksReducer = (state, action) => {
             })
         }
         case 'DELETE': {
-            
+            return state.filter((task) => task.id !== action.id)
         }
         case 'DELETE_ALL': {
-            
+            return []
+        }
+        default:{
+            console.error("Ошибка")
         }
     }
 }
 const useTasks = () => {
-    const [tasks, setTask] = useState([])
+    const [tasks, dispatch] = useReducer(tasksReducer, [])
 
     const [newTaskTitle, setNewTaskTitle] = useState('')
 
@@ -37,7 +40,7 @@ const useTasks = () => {
     
     useEffect(() => {
         newTaskInputRef.current.focus()
-        taskApi.getAll().then(setTask)
+        taskApi.getAll().then((Tasks) => dispatch({type: 'SET_ALL', tasks: Tasks    }))
     }, [])
     
     const deleteAllTask = useCallback(() => {
@@ -49,57 +52,27 @@ const useTasks = () => {
             setdeleteTaskId('AllTaskDelete')
     
             setTimeout(() => {
-                setTask([])
+                dispatch({type: 'DELETE_ALL'})
                 setdeleteTaskId(null)
         }, 400)
     })
     }, [tasks])
     
     const deleteTask = useCallback((taskId) => {
-    
-        if(tasks.forEach((task) => { if(task.id === taskId) {
-        return task.isDone
-    
-    }})) {
-    
-        setTask(tasks.filter(({id}) => id !== taskId ))
-    
-        taskApi.delete(taskId).then(() => {
-    
-            setdeleteTaskId(taskId)
-    
-            setTimeout(() => {
-                setTask(
-                tasks.filter(({id}) => id !== taskId )
-            )
-    
-            setdeleteTaskId(null)
-            }, 400)
-        })
-    } else {
         const isConfirm = confirm("Вы хотите отменить задачу")
-
         if(isConfirm) {
             taskApi.delete(taskId).then(() => {
             setdeleteTaskId(taskId)
             setTimeout(() => {
-                setTask(
-                tasks.filter(({id}) => id !== taskId )
-            )
-            setdeleteTaskId(null)
+                dispatch({type: 'DELETE', id: taskId })
+                setdeleteTaskId(null)
             }, 400)
         })
-        }
     }
-    } , [tasks])
+    } , [])
     const toggleTaskComplete = useCallback((taskId, isDone) => {
-    taskApi.toggleComplete(taskId,isDone).then(() => setTask(tasks.map((task) => {
-        if(taskId === task.id) {
-            return {...task, isDone}
-        }
-        return task
-    })))
-    },[tasks])
+    taskApi.toggleComplete(taskId,isDone).then(() => dispatch({type:'TOGGLE_COMPLETE' , id:taskId , isDone: isDone}))
+    },[])
 
 
     const addTask = useCallback(() => {
@@ -110,14 +83,12 @@ const useTasks = () => {
             isDone: false
         }
         taskApi.add(newTask).then((addedTask) => {
-        setTask( (prevTasks) => {
-        return [...prevTasks, addedTask]
-        })
+        dispatch({type:'ADD', task: addedTask})
         setNewTaskTitle('')
         setaddTaskId(addedTask.id)
         setTimeout(()=> {
             setaddTaskId(null)
-        }, 20000)
+        }, 400)
         })
         
         // newTaskInputRef.current.focus()
